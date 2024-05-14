@@ -91,8 +91,11 @@ func handle_controls(delta):
 	# Movement
 
 	var applied_velocity: Vector3
-	var move = Input.get_axis("move_back", "move_forward")
-	applied_velocity += transform.basis.z * move * movement_speed
+	var move_forward = Input.get_axis("move_back", "move_forward")
+	applied_velocity += transform.basis.z * move_forward * movement_speed
+	
+	var move_sideways = Input.get_axis("move_right", "move_left")
+	applied_velocity += transform.basis.x * move_sideways * movement_speed
 	
 	applied_velocity.y = -gravity
 	
@@ -100,7 +103,7 @@ func handle_controls(delta):
 	move_and_slide()
 	
 	# Rotation
-	var turn = Input.get_axis("move_right", "move_left")
+	var turn = Input.get_axis("camera_right", "camera_left")
 	rotate_y(rotation_speed * turn * delta)
 
 # Handle gravity

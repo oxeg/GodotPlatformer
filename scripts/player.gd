@@ -7,7 +7,7 @@ signal coin_collected
 
 @export_subgroup("Properties")
 @export var movement_speed = 5
-@export var rotation_speed = 2
+@export var mouse_sensitivity = 1000
 @export var jump_strength = 7
 
 var movement_velocity: Vector3
@@ -101,13 +101,16 @@ func handle_controls(delta):
 	
 	velocity = applied_velocity
 	move_and_slide()
-	
-	# Rotation
-	var turn = Input.get_axis("camera_right", "camera_left")
-	rotate_y(rotation_speed * turn * delta)
+
+
+# Rotation
+func _input(event):
+	if event is InputEventMouseMotion:
+		rotation.y -= event.relative.x / mouse_sensitivity
+		
+		$CameraPivot.rotation.x += event.relative.y / mouse_sensitivity
 
 # Handle gravity
-
 func handle_gravity(delta):
 	
 	gravity += 25 * delta

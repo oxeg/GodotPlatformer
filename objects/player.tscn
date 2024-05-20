@@ -74,7 +74,9 @@ volume_db = -5.0
 pitch_scale = 1.25
 autoplay = true
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, -4.66421e-14, -8.74228e-08, -3.71828e-08, 0.905042, 0.425321, 7.91213e-08, 0.425321, -0.905042, 0, 2.47926, -4.15456)
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(-1, -4.58697e-14, -8.74228e-08, -3.71828e-08, 0.905042, 0.425321, 7.91213e-08, 0.425321, -0.905042, 0, 2.47926, -4.15456)
 
 [editable path="Character"]

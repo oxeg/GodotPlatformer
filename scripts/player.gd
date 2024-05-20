@@ -103,12 +103,17 @@ func handle_controls(delta):
 	move_and_slide()
 
 
-# Rotation
+# Mouse Look
 func _input(event):
+	if not Input.is_action_pressed("mouse_look_activated"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		return
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	if event is InputEventMouseMotion:
 		rotation.y -= event.relative.x / mouse_sensitivity
 		
-		$CameraPivot.rotation.x += event.relative.y / mouse_sensitivity
+		$CameraCenter.rotation.x += event.relative.y / mouse_sensitivity
 
 # Handle gravity
 func handle_gravity(delta):

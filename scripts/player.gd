@@ -25,29 +25,25 @@ var coins = 0
 @onready var sound_footsteps = $SoundFootsteps
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
+@onready var platform = preload("res://objects/platform.tscn")
 
 # Functions
 
 func _physics_process(delta):
-	
 	# Handle functions
-	
 	handle_controls(delta)
 	handle_gravity(delta)
 	
 	handle_effects()
 	
 	# Falling/respawning
-	
 	if position.y < -10:
 		get_tree().reload_current_scene()
 	
 	# Animation for scale (jumping and landing)
-	
 	model.scale = model.scale.lerp(Vector3(1, 1, 1), delta * 10)
 	
 	# Animation when landing
-	
 	if is_on_floor() and gravity > 2 and !previously_floored:
 		model.scale = Vector3(1.25, 0.75, 1.25)
 		Audio.play("res://sounds/land.ogg")
@@ -55,7 +51,6 @@ func _physics_process(delta):
 	previously_floored = is_on_floor()
 
 # Handle animation(s)
-
 func handle_effects():
 	
 	particles_trail.emitting = false
@@ -72,10 +67,8 @@ func handle_effects():
 		animation.play("jump", 0.5)
 
 # Handle movement input
-
 func handle_controls(delta):
 	# Jumping
-	
 	if Input.is_action_just_pressed("jump"):
 		if jump_single or jump_double:
 			Audio.play("res://sounds/jump.ogg")
@@ -89,7 +82,6 @@ func handle_controls(delta):
 		if(jump_single): jump()
 	
 	# Movement
-
 	var applied_velocity: Vector3
 	var move_forward = Input.get_axis("move_back", "move_forward")
 	applied_velocity += transform.basis.z * move_forward * movement_speed
@@ -101,6 +93,13 @@ func handle_controls(delta):
 	
 	velocity = applied_velocity
 	move_and_slide()
+	
+	# Spawn platform
+	if Input.is_action_just_pressed("spawn_platform"):
+		print_debug("spawning platform")
+		var newPlatform = platform.instantiate()
+		newPlatform.transform.origin = transform.origin
+		get_parent().add_child(newPlatform)
 
 
 # Mouse Look
@@ -126,7 +125,6 @@ func handle_gravity(delta):
 		gravity = 0
 
 # Jumping
-
 func jump():
 	
 	gravity = -jump_strength
@@ -137,7 +135,6 @@ func jump():
 	jump_double = true;
 
 # Collecting coins
-
 func collect_coin():
 	
 	coins += 1
